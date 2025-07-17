@@ -17,20 +17,8 @@ Before modifying kernel parameters, ensure the following prerequisites are met:
 
 ---
 
-## 1. Ways to Modify Kernel Tunables
 
-There are three common ways to change Linux kernel parameters:
-
-1. **Using the sysctl command**  
-   - This method allows you to instantly view and change kernel parameters at runtime, impacting the current session only.
-2. **By editing configuration files in the `/etc/sysctl.d/` directory**  
-   - This method involves creating or editing .conf files within the /etc/sysctl.d/ directory. These files are loaded automatically at boot, ensuring your changes persist across reboots.
-3. **Directly interacting with the virtual file system at `/proc/sys`**  
-   - Advanced method; changes are immediate but not persistent after reboot.
-
----
-
-## 2. Viewing Kernel Parameters
+## 1. Viewing Kernel Parameters
 
 - **View all parameters and their values:**
   ```bash
@@ -47,7 +35,7 @@ There are three common ways to change Linux kernel parameters:
 
 ---
 
-## 3. Temporarily Applying (Runtime) Changes
+## 2. Temporarily Applying (Runtime) Changes
 
 - **Change a parameter for the current session (lost after reboot):**
   ```bash
@@ -65,7 +53,7 @@ There are three common ways to change Linux kernel parameters:
 
 ---
 
-## 4. Persisting Changes Across Reboots
+## 3. Persisting Changes Across Reboots
 
 Making changes permanent means they will be applied automatically every time the system starts.
 
@@ -98,25 +86,24 @@ Making changes permanent means they will be applied automatically every time the
      ```
 
 ---
-## 5.Validation
 
-1. To verify if the kernel parameters have been set correctly:
+- **Verify a specific parameter:**
+  ```bash
+  sysctl <parameter>
+  ```
+  Example:
+  ```bash
+  sysctl net.ipv4.ip_forward
+  ```
+- **Verify all current sysctl settings:**
+  ```bash
+  sysctl -a
+  ```
 
- ```bash
-sysctl <parameter>
-```
-Example:
+---
 
- ```bash
-sysctl net.ipv4.ip_forward
-```
-2. To verify all current sysctl settings:
 
-```bash
-sysctl -a
-```
-
-## 6. Performance Tuning Kernel Parameters
+## 5. Performance Tuning Kernel Parameters
 
 | Parameter                            | Description                                                                                       | Typical Example Value | Impact                                                                                         |
 |---------------------------------------|---------------------------------------------------------------------------------------------------|----------------------|-----------------------------------------------------------------------------------------------------|
@@ -127,7 +114,7 @@ sysctl -a
 
 ---
 
-## 7. Security Tuning Kernel Parameters
+## 6. Security Tuning Kernel Parameters
 
 | Parameter | Description | Recommended Value |
 |----------|-------------|-------------------|
@@ -138,27 +125,52 @@ sysctl -a
 
 
 
-## 8. Troubleshooting and best practices
+## 7. Troubleshooting
 
-- Always test changes temporarily before making them permanent.
-- Before making permanent changes, create backups of the configuration files (e.g., cp /etc/sysctl.conf /etc/sysctl.conf.bak).
-- If a setting causes issues, quickly revert to the backup: cp /etc/sysctl.conf.bak /etc/sysctl.conf && sudo sysctl -p.
-- Avoid applying many changes at once. Adjust one parameter at a time and monitor its impact before proceeding to the next.
-- Be careful: Some kernel parameters can affect system security and stability.
-- If your value doesn’t persist:
-   1. Check file syntax: Ensure no extra spaces, typos in /etc/sysctl.conf or /etc/sysctl.d/*.conf
-
-   2. Ensure the file has .conf extension in /etc/sysctl.d/
-
-   3. Check for overrides in multiple sysctl files using:
-     
+- **Backup Configurations:**  
+  Before making permanent changes, backup configuration files:
+  ```bash
+  sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
+  ```
+- **Quick Reversion:**  
+  If an issue arises, quickly restore the backup and reload:
+  ```bash
+  sudo cp /etc/sysctl.conf.bak /etc/sysctl.conf
+  sudo sysctl -p
+  ```
+- **Persistence Troubleshooting:**  
+  If a parameter value does not persist after reboot:
+  1. **Check File Syntax:**  
+     Ensure no syntax errors or typos in `/etc/sysctl.conf` or `/etc/sysctl.d/*.conf`.
+  2. **File Extensions:**  
+     Custom files in `/etc/sysctl.d/` must end with `.conf`.
+  3. **Check for Conflicts:**  
+     Identify duplicate/conflicting parameters:
      ```bash
-      sudo grep -r net.ipv4.ip_forward /etc/sysctl*
+     sudo grep -r net.ipv4.ip_forward /etc/sysctl*
      ```
+---
 
+## 8. Best Practices
 
+- **Test Changes Temporarily:**  
+  Always use temporary changes (`sysctl -w`) to validate effects before making them persistent.
+- **Implement Incremental Changes:**  
+  Modify and test one parameter at a time; monitor impact before further changes.
 
 ---
+
+## Version History
+
+| Author          | Created on | Version   | Last updated by | Internal Reviewer | L0     | L1      | L2     |
+|-----------------|------------|-----------|------------------|--------------------|--------|---------|--------|
+| Meenu Chauhan       | 17-07-25   | version 1 | N/A              | Siddarth          | Imran | Shashi | Mahesh Kumar |
+
+## Contact Information
+
+| Name            | Email address |
+|-----------------|---------------|
+| Meenu Chauhan       | meenu.chauhan.snaatak@mygurukulam.co
 
 ## References
 
