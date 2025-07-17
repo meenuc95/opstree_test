@@ -1,26 +1,36 @@
 # SOP: Viewing, Applying, and Persisting Kernel Parameter Changes using sysctl
 ## Objective
 
-This SOP explains how to view, apply, and persist Linux kernel parameter (kernel tunable) changes for performance or security tuning.  
-Linux kernel parameters are settings that control how the core of your operating system (the kernel) behaves. These parameters are located in the `/proc/sys/` directory. 
-The sysctl command in Linux allows users to read and modify the kernel parameters at runtime. These parameters are accessible in the /proc/sys/ directory. sysctl provides a more convenient way to interact with these settings, without needing to directly edit files in the /proc/sys/ directory. This utility is crucial for system administrators and developers who need to tune the operating system for optimal performance and security.
+This SOP explains how to view, apply, and persist Linux kernel parameter (kernel tunable) changes for performance or security tuning using the sysctl command.  
+
+
+---
+## Prerequisites
+
+Before modifying kernel parameters, ensure the following prerequisites are met:
+
+| Requirement                  | Description                                                                                 |
+|-----------------------------|---------------------------------------------------------------------------------------------|
+| **Root or Sudo Access**     | Required to view or modify kernel parameters and configuration files.                      |
+| **Text Editor Installed**   | Ensure `vim`, `nano`, or similar is available to edit config files.                        |
+| **Sysctl Installed**        | Linux system with `sysctl` utility installed (default in most distributions)         |
 
 ---
 
-## Ways to Modify Kernel Tunables
+## 1. Ways to Modify Kernel Tunables
 
 There are three common ways to change Linux kernel parameters:
 
 1. **Using the sysctl command**  
-   - Safely view and change kernel parameters on the fly.
+   - This method allows you to instantly view and change kernel parameters at runtime, impacting the current session only.
 2. **By editing configuration files in the `/etc/sysctl.d/` directory**  
-   - Allows you to save changes so they are applied automatically at every boot.
+   - This method involves creating or editing .conf files within the /etc/sysctl.d/ directory. These files are loaded automatically at boot, ensuring your changes persist across reboots.
 3. **Directly interacting with the virtual file system at `/proc/sys`**  
    - Advanced method; changes are immediate but not persistent after reboot.
 
 ---
 
-## 1. Viewing Kernel Parameters
+## 2. Viewing Kernel Parameters
 
 - **View all parameters and their values:**
   ```bash
@@ -37,7 +47,7 @@ There are three common ways to change Linux kernel parameters:
 
 ---
 
-## 2. Temporarily Applying (Runtime) Changes
+## 3. Temporarily Applying (Runtime) Changes
 
 - **Change a parameter for the current session (lost after reboot):**
   ```bash
@@ -55,7 +65,7 @@ There are three common ways to change Linux kernel parameters:
 
 ---
 
-## 3. Persisting Changes Across Reboots
+## 4. Persisting Changes Across Reboots
 
 Making changes permanent means they will be applied automatically every time the system starts.
 
@@ -88,7 +98,25 @@ Making changes permanent means they will be applied automatically every time the
      ```
 
 ---
-## 4. Performance Tuning Kernel Parameters
+## 5.Validation
+
+1. To verify if the kernel parameters have been set correctly:
+
+ ```bash
+sysctl <parameter>
+```
+Example:
+
+ ```bash
+sysctl net.ipv4.ip_forward
+```
+2. To verify all current sysctl settings:
+
+```bash
+sysctl -a
+```
+
+## 6. Performance Tuning Kernel Parameters
 
 | Parameter                            | Description                                                                                       | Typical Example Value | Impact                                                                                         |
 |---------------------------------------|---------------------------------------------------------------------------------------------------|----------------------|-----------------------------------------------------------------------------------------------------|
@@ -99,7 +127,7 @@ Making changes permanent means they will be applied automatically every time the
 
 ---
 
-## Security Tuning Kernel Parameters
+## 7. Security Tuning Kernel Parameters
 
 | Parameter | Description | Recommended Value |
 |----------|-------------|-------------------|
@@ -110,12 +138,25 @@ Making changes permanent means they will be applied automatically every time the
 
 
 
-## 5. Best Practices
+## 8. Troubleshooting and best practices
 
 - Always test changes temporarily before making them permanent.
-- Use `/etc/sysctl.d/` for organized and safe permanent changes.
-- Document all changes and why you made them.
+- Before making permanent changes, create backups of the configuration files (e.g., cp /etc/sysctl.conf /etc/sysctl.conf.bak).
+- If a setting causes issues, quickly revert to the backup: cp /etc/sysctl.conf.bak /etc/sysctl.conf && sudo sysctl -p.
+- Avoid applying many changes at once. Adjust one parameter at a time and monitor its impact before proceeding to the next.
 - Be careful: Some kernel parameters can affect system security and stability.
+- If your value doesn’t persist:
+   1. Check file syntax: Ensure no extra spaces, typos in /etc/sysctl.conf or /etc/sysctl.d/*.conf
+
+   2. Ensure the file has .conf extension in /etc/sysctl.d/
+
+   3. Check for overrides in multiple sysctl files using:
+     
+     ```bash
+      sudo grep -r net.ipv4.ip_forward /etc/sysctl*
+     ```
+
+
 
 ---
 
