@@ -2,9 +2,9 @@
 
 ## Author Information
 
-| Author          | Created on | Version   | Last updated by | Internal Reviewer | L0     | L1      | L2     |
-|-----------------|------------|-----------|------------------|--------------------|--------|---------|--------|
-| Meenu Chauhan       | 17-07-25   | version 1 | 18-07-25              | Siddarth          | Imran | Shashi | Mahesh Kumar |
+| Author          | Created on | Version   | Last updated by | Internal Reviewer |
+|-----------------|------------|-----------|------------------|--------------------|
+| Meenu Chauhan       | 17-07-25   | version 1 | 18-07-25              | Siddarth          | 
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -80,29 +80,29 @@ Before modifying kernel parameters, ensure the following prerequisites are met:
 Making changes permanent means they will be applied automatically every time the system starts.
 
 - **Method 1: Edit `/etc/sysctl.conf`**
-  1. Open the file:
+  - Open the file:
      ```bash
      sudo vi /etc/sysctl.conf
      ```
-  2. Add or update your parameter:
+  - Add or update your parameter:
      ```
      net.ipv4.ip_forward=1
      ```
-  3. Apply changes immediately:
+  - Apply changes immediately:
      ```bash
      sudo sysctl -p /etc/sysctl.conf
      ```
 
 - **Method 2: Create/Edit a file in `/etc/sysctl.d/` (Recommended)**
-  1. Create a custom config file:
+  - Create a custom config file:
      ```bash
      vim /etc/sysctl.d/99-custom.conf
      ```
-  2. Include the variables you wish to set and save the file
+  - Include the variables you wish to set and save the file
      ```bash
      net.ipv4.ip_forward=1
      ```
-  3. Apply all sysctl settings:
+  - Apply all sysctl settings:
      ```bash
      sudo sysctl --system
      ```
@@ -128,11 +128,10 @@ Making changes permanent means they will be applied automatically every time the
 
 ## Performance Tuning Kernel Parameters
 
-| Parameter                            | Description                                                                                       | Typical Example Value | Impact                                                                                         |
-|---------------------------------------|---------------------------------------------------------------------------------------------------|----------------------|-----------------------------------------------------------------------------------------------------|
-| **vm.swappiness**                     | Controls the tendency of the kernel to move processes out of physical memory and onto the swap disk| 10                   | Lower values reduce swap usage (good for most servers), higher values make the kernel swap more.     |
-| **vm.dirty_ratio**                    | Maximum % of system memory that can be filled with dirty pages before writing to disk              | 15                   | Lower values cause more frequent disk writes.                                                                    
-| **fs.file-max**                       | Maximum number of open file handles allowed system-wide                                            | 2097152              | Raise for high-connection servers (databases, web servers).                                          |
+| Parameter                            | Description                                                                                       | Recommended Value |                        
+|---------------------------------------|---------------------------------------------------------------------------------------------------|----------------------|
+| **vm.swappiness**                     | Controls the tendency of the kernel to move processes out of physical memory and onto the swap disk| 10                   |
+| **vm.dirty_ratio**                    | Maximum % of system memory that can be filled with dirty pages before writing to disk              | 15                   |                   | **fs.file-max**                       | Maximum number of open file handles allowed system-wide                                            | 2097152              |
 
 ---
 
@@ -147,25 +146,24 @@ Making changes permanent means they will be applied automatically every time the
 
 ## Troubleshooting
 
-- **Backup Configurations:**  
-  Before making permanent changes, backup configuration files:
+- **Backup Configurations:**  Before making permanent changes, backup configuration files
+  
   ```bash
   sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
   ```
-- **Quick Reversion:**  
-  If an issue arises, quickly restore the backup and reload:
+- **Quick Reversion:**  If an issue arises, quickly restore the backup and reload
+  
   ```bash
   sudo cp /etc/sysctl.conf.bak /etc/sysctl.conf
   sudo sysctl -p
   ```
-- **Persistence Troubleshooting:**  
+- **Persistence Troubleshooting:**
+   
   If a parameter value does not persist after reboot:
-  1. **Check File Syntax:**  
-     Ensure no syntax errors or typos in `/etc/sysctl.conf` or `/etc/sysctl.d/*.conf`.
-  2. **File Extensions:**  
-     Custom files in `/etc/sysctl.d/` must end with `.conf`.
-  3. **Check for Conflicts:**  
-     Identify duplicate/conflicting parameters:
+  - **Check File Syntax:**  Ensure no syntax errors or typos in `/etc/sysctl.conf` or `/etc/sysctl.d/*.conf`.
+  - **File Extensions:**  Custom files in `/etc/sysctl.d/` must end with `.conf`.
+  - **Check for Conflicts:**  Identify duplicate/conflicting parameters
+    
      ```bash
      sudo grep -r net.ipv4.ip_forward /etc/sysctl*
      ```
@@ -173,10 +171,8 @@ Making changes permanent means they will be applied automatically every time the
 
 ## Best Practices
 
-- **Test Changes Temporarily:**  
-  Always use temporary changes (`sysctl -w`) to validate effects before making them persistent.
-- **Implement Incremental Changes:**  
-  Modify and test one parameter at a time; monitor impact before further changes.
+- **Test Changes Temporarily:**  Always use temporary changes (`sysctl -w`) to validate effects before making them persistent.
+- **Implement Incremental Changes:**  Modify and test one parameter at a time; monitor impact before further changes.
 
 ---
 
@@ -188,8 +184,9 @@ Making changes permanent means they will be applied automatically every time the
 | Meenu Chauhan       | meenu.chauhan.snaatak@mygurukulam.co
 
 ## References
-
-- Phoenixnap Document: https://phoenixnap.com/kb/sysctl
-- Redhat Official Document: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables
+| **Link**                                                                 | **Description**                                   |
+|--------------------------------------------------------------------------|---------------------------------------------------|
+| [Redhat Official Document](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables) | Document format followed from this link.          |
+| [Phoenixnap Document](https://phoenixnap.com/kb/sysctl) | Document  link.          |
 
 ---
