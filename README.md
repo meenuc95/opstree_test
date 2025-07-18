@@ -142,7 +142,6 @@ Making changes permanent means they will be applied automatically every time the
 |----------|-------------|-------------------|
 | `net.ipv4.ip_forward` | **Disable IP forwarding** to prevent the host from acting as a router (good for non-networking servers) | `0` |
 | `net.ipv4.tcp_syncookies` | Enable SYN cookies to protect against SYN flood DDoS attacks | `1` |
-| `fs.suid_dumpable`                     | Prevents setuid program crashes from dumping memory (for confidentiality).           | `0`|
 
 
 
