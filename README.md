@@ -186,7 +186,7 @@ Making changes permanent means they will be applied automatically every time the
 ## References
 | **Link**                                                                 | **Description**                                   |
 |--------------------------------------------------------------------------|---------------------------------------------------|
-| [Redhat Official Document](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables) | Document format followed from this link.          |
-| [Phoenixnap Document](https://phoenixnap.com/kb/sysctl) | Document  link.          |
+| [Redhat Official Document](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables) | Document for modify kernel tunables.          |
+| [Phoenixnap Document](https://phoenixnap.com/kb/sysctl) | Document for sysctl command in Linux.          |
 
 ---
