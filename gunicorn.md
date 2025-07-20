@@ -9,12 +9,12 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Viewing Kernel Parameters](#viewing-kernel-parameters)
-- [Temporarily Applying (Runtime) Changes](#temporarily-applying-runtime-changes)
-- [Persisting Changes Across Reboots](#persisting-changes-across-reboots)
-- [Performance Tuning Kernel Parameters](#performance-tuning-kernel-parameters)
-- [Security Tuning Kernel Parameters](#security-tuning-kernel-parameters)
-- [Validation](#validation)
+- [Update System Packages](#update-system-packages)
+- [Install Python 3, pip and python3-venv](#install-python-3-pip-and-python3-venv-if-not-already-installed)
+- [Create a Python Virtual Environment](#create-a-python-virtual-environment)
+- [Install Gunicorn](#install-gunicorn)
+- [Verify Gunicorn Installation](#verify-gunicorn-installation)
+- [Common Gunicorn Usage](#common-gunicorn-usage)
 - [Troubleshooting](#troubleshooting)
 - [Best Practices](#best-practices)
 - [Contact Information](#contact-information)
@@ -30,23 +30,34 @@ frameworks to communicate with web servers. Gunicorn generate  multiple worker p
 
 ## Prerequisites
 
-- Linux server (Ubuntu/Debian/CentOS/RHEL)
-- Python 3.7 or newer installed
-- pip and python3-venv installed 
-- Sudo/root privileges
+| Requirement           | Description                          |
+|-----------------------|--------------------------------------|
+| OS                    | Linux (Ubuntu/Debian/CentOS/RHEL)   |
+| Python Version        | Python 3.7 or newer                  |
+| Python Tools          | `pip`, `python3-venv` must be installed |
+| User Privileges       | `sudo` or root access required       |
+
 
 ---
-
-
-## Install Python 3, pip and python3-venv (if not already installed)
+## Update System Packages
 
 **Ubuntu/Debian:**
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
+
+## Install Python 3, pip and python3-venv (if not already installed)
+
+**Ubuntu/Debian:**
 ```bash
 sudo apt install python3 python3-pip python3-venv -y
+```
+**Verify installation:**
+
+```bash
+python3 --version
+python3-pip --version
 ```
 
 ---
@@ -90,6 +101,25 @@ gunicorn --version
 
 ---
 
+## 6. Test Gunicorn with a Sample Python App
+
+Create a file named `app.py` in your project directory:
+```python
+# app.py
+def app(environ, start_response):
+    data = b"Hello, Gunicorn!\n"
+    start_response("200 OK", [
+        ("Content-Type", "text/plain"),
+        ("Content-Length", str(len(data)))
+    ])
+    return iter([data])
+```
+
+Run Gunicorn:
+```bash
+gunicorn --bind 0.0.0.0:8000 app:app
+```
+
 
 ## Common Gunicorn Usage
 
@@ -107,6 +137,16 @@ gunicorn --version
   ```
 
 ---
+
+## Troubleshootings 
+# Check gunicorn processes
+ps aux | grep gunicorn
+
+
+# Test gunicorn manually
+cd /path/to/your/backend
+source venv/bin/activate
+gunicorn --bind 0.0.0.0:8000 app:app
 ## Contact Information
 
 | Name            | Email address |
@@ -116,15 +156,11 @@ gunicorn --version
 ## References
 | **Link**                                                                 | **Description**                                   |
 |--------------------------------------------------------------------------|---------------------------------------------------|
-| [Redhat Official Document](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables) | Document format followed from this link.          |
-| [Phoenixnap Document](https://phoenixnap.com/kb/sysctl) | Document  link.          |
+| [Gunicorn Documentation](https://gunicorn.org/) | Gunicorn setup document link.          |
+| [Gunicorn]([https://phoenixnap.com/kb/sysctl](https://dev.to/doridoro/what-is-gunicorn-4n26)) | Gunicorn intoduction document  link.          |
 
 
 
-## Additional Resources
 
-- [Gunicorn Documentation](https://docs.gunicorn.org/en/stable/)
-- [Flask Deployment Options](https://flask.palletsprojects.com/en/latest/deploying/wsgi-standalone/)
-- [Django with Gunicorn](https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/gunicorn/)
 
 ---
