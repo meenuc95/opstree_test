@@ -57,7 +57,7 @@ sudo apt install python3 python3-pip python3-venv -y
 
 ```bash
 python3 --version
-python3-pip --version
+pip3 --version
 ```
 
 ---
@@ -82,7 +82,7 @@ source venv/bin/activate
 
 In your (activated) virtual environment, run:
 ```bash
-pip install gunicorn
+pip3 install gunicorn
 ```
 
 *Alternatively, to install system-wide (not recommended for most cases):*
