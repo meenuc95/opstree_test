@@ -16,7 +16,6 @@
 - [Verify Gunicorn Installation](#verify-gunicorn-installation)
 - [Common Gunicorn Usage](#common-gunicorn-usage)
 - [Troubleshooting](#troubleshooting)
-- [Best Practices](#best-practices)
 - [Contact Information](#contact-information)
 - [References](#references)
 
@@ -53,12 +52,16 @@ sudo apt upgrade -y
 ```bash
 sudo apt install python3 python3-pip python3-venv -y
 ```
+<img width="1000" height="271" alt="Screenshot 2025-07-22 at 12 53 57 PM" src="https://github.com/user-attachments/assets/d38e4beb-7246-4874-b5ba-c95cf4d676aa" />
+
 **Verify installation:**
 
 ```bash
 python3 --version
 pip3 --version
 ```
+<img width="1000" height="100" alt="Screenshot 2025-07-22 at 12 56 18 PM" src="https://github.com/user-attachments/assets/b6c7f08d-4335-497a-97b9-d75717fc1216" />
+
 
 ---
 
@@ -75,6 +78,7 @@ Create and activate a virtual environment:
 python3 -m venv venv
 source venv/bin/activate
 ```
+<img width="1000" height="198" alt="Screenshot 2025-07-22 at 12 57 36 PM" src="https://github.com/user-attachments/assets/02017b66-4de1-4dc8-a5ec-f3b795007c94" />
 
 ---
 
@@ -84,6 +88,7 @@ In your (activated) virtual environment, run:
 ```bash
 pip3 install gunicorn
 ```
+<img width="1000" height="193" alt="Screenshot 2025-07-22 at 12 57 57 PM" src="https://github.com/user-attachments/assets/ef7b9590-0d01-4cfd-884b-c24177e1ae1e" />
 
 *Alternatively, to install system-wide (not recommended for most cases):*
 ```bash
@@ -98,6 +103,7 @@ Check the installed version:
 ```bash
 gunicorn --version
 ```
+<img width="1000" height="241" alt="Screenshot 2025-07-22 at 12 58 15 PM" src="https://github.com/user-attachments/assets/7409b2c2-5d09-4426-b38b-8261eeab39e2" />
 
 ---
 
@@ -119,6 +125,10 @@ Run Gunicorn:
 ```bash
 gunicorn --bind 0.0.0.0:8000 app:app
 ```
+<img width="1000" height="181" alt="Screenshot 2025-07-22 at 12 59 24 PM" src="https://github.com/user-attachments/assets/22d91773-3007-42a1-a895-61842ab459e5" />
+
+<img width="1000" height="68" alt="Screenshot 2025-07-22 at 1 00 04 PM" src="https://github.com/user-attachments/assets/270d4c80-38d5-4992-bce8-52b11a5bb046" />
+
 
 
 ## Common Gunicorn Usage
@@ -137,16 +147,27 @@ gunicorn --bind 0.0.0.0:8000 app:app
   ```
 
 ---
+## Troubleshooting
 
-## Troubleshootings 
-# Check gunicorn processes
+If Gunicorn is not working as expected, follow the steps below to troubleshoot common issues:
+
+### Check Gunicorn Processes
+
+Verify if Gunicorn is running:
+
+```bash
 ps aux | grep gunicorn
+```
 
+### Test Gunicorn Manually
+We can manually test if  Gunicorn server works by running it directly from your project directory:
 
-# Test gunicorn manually
+```bash
 cd /path/to/your/backend
 source venv/bin/activate
 gunicorn --bind 0.0.0.0:8000 app:app
+```
+
 ## Contact Information
 
 | Name            | Email address |
