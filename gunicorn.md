@@ -178,7 +178,7 @@ gunicorn --bind 0.0.0.0:8000 app:app
 | **Link**                                                                 | **Description**                                   |
 |--------------------------------------------------------------------------|---------------------------------------------------|
 | [Gunicorn Documentation](https://gunicorn.org/) | Gunicorn setup document link.          |
-| [Gunicorn]([https://phoenixnap.com/kb/sysctl](https://dev.to/doridoro/what-is-gunicorn-4n26)) | Gunicorn intoduction document  link.          |
+| [Gunicorn Basic](https://dev.to/doridoro/what-is-gunicorn-4n26) | Gunicorn intoduction document  link.          |
 
 
 
