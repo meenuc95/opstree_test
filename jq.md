@@ -10,6 +10,7 @@
 - [Introduction](#introduction)
 - [Why Use JQ](#why-use-jq)
 - [Features of JQ](#features-of-jq)
+- [Common JQ Commands Examples](#common-jq-commands-examples)
 - [Conclusion](#conclusion)
 - [Contact Information](#contact-information)
 - [References](#references)
@@ -47,6 +48,56 @@ Cross-Platform Support: JQ is designed to work consistently across all major ope
 | **Filtering & Extraction**           | Easily extract specific fields or arrays from JSON: <br> `jq '.user.name' file.json`                    |
 
 ---
+## Common JQ Commands Examples
+
+### 1. Viewing and Formatting JSON
+
+#### Pretty-print JSON  
+To display JSON in a readable, indented format:
+
+```bash
+echo '{"name":"John","age":30}' | jq '.'
+ ```
+
+
+#### Compact Output
+To print JSON in a single line without extra whitespace:
+
+```bash
+
+echo '{"name":"John","age":30}' | jq -c '.'
+```
+
+#### Colored Output
+To display colorized output in the terminal (if supported):
+
+```bash
+echo '{"name":"John","age":30}' | jq -C '.'
+```
+This helps improve readability in terminal environments with color support.
+
+### 2. Accessing Data in JSON
+
+#### To extract the value of a specific key:
+
+``` bash
+
+echo '{"name":"John","age":30}' | jq '.name'
+```
+#### To access nested JSON fields:
+
+```bash
+
+echo '{"user": {"name": "Jane", "city": "London"}}' | jq '.user.city'
+```
+
+#### To retrieve a value from an array using its index (0-based):
+
+```bash
+
+echo '["apple", "banana", "cherry"]' | jq '.[1]'
+
+```
 
 ## Conclusion
 JQ is an essential tool for anyone working with JSON on the command line. Its expressive language, powerful features, and ease of use make it ideal for data extraction, transformation, and automation tasks.
@@ -61,7 +112,7 @@ JQ is an essential tool for anyone working with JSON on the command line. Its ex
 | **Link**                                                                 | **Description**                                   |
 |--------------------------------------------------------------------------|---------------------------------------------------|
 | [JQ Documentation](https://medium.com/@learntheshell/guide-to-jq-command-d75176fc4303) | Introduction to jq.          |
-| [Gunicorn]([https://phoenixnap.com/kb/sysctl](https://dev.to/doridoro/what-is-gunicorn-4n26)) | Gunicorn intoduction document  link.          |
+| [JQ Commands](https://www.baeldung.com/linux/jq-command-json) | JQ command example.          |
 
 
 
