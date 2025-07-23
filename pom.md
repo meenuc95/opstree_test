@@ -38,12 +38,12 @@ It defines project dependencies, plugins, build profiles, and other configuratio
 ## Install Java JDK
 
 **On Ubuntu:**
-```sh
+```bash
 sudo apt update
 sudo apt install -y openjdk-11-jdk
 ```
 **Verify installation:**
-```sh
+```bash
 java -version
 ```
 
@@ -52,11 +52,11 @@ java -version
 ## Install Maven
 
 **On Ubuntu:**
-```sh
+```bash
 sudo apt install -y maven
 ```
 **Verify installation:**
-```sh
+```bash
 mvn -version
 ```
 
@@ -65,7 +65,7 @@ mvn -version
 
 ## Clone the Project
 
-```sh
+```bash
 git clone <your-repo-url>
 cd <your-project-directory>
 ```
@@ -83,19 +83,33 @@ cd <your-project-directory>
 
 ## Build the Project
 
-```sh
+```bash
 mvn clean install
 ```
-- Downloads dependencies, compiles code, runs tests, and packages the application (e.g., as a `.jar` or `.war` file).
-
+This command performs the following actions:
+- **Cleans** previously compiled files (`target/` directory).
+- **Downloads** all required dependencies.
+- **Compiles** the project source code.
+- **Runs** all unit tests.
+- **Packages** the application into a deployable format (e.g., `.jar` or `.war`).
+- **Installs** the built artifact into your local Maven repository (`~/.m2/repository`), making it available for use by other local projects.
 ---
 ## Run the Application
 
 After building the project, run the generated JAR file using the following command:
 
-```sh
+```bash
 java -jar target/<your-app>.jar
 ```
+---
+
+## Clean the Project
+
+```bash
+mvn clean
+```
+This command removes the `target/` directory and all previously compiled files, ensuring that the next build starts from a clean state.
+
 ---
 
 ## Run Tests
@@ -104,16 +118,8 @@ java -jar target/<your-app>.jar
 mvn test
 ```
 
----
+This command compiles the test source code and runs all unit tests defined in the project. Test results will be displayed in the console. 
 
-## Clean the Project
-
-```sh
-mvn clean
-```
-- Removes the `target/` directory and all compiled files.
-
----
 
 ## Troubleshooting
 
@@ -143,7 +149,7 @@ mvn clean
 ## References
 | **Link**                                                                 | **Description**                                   |
 |--------------------------------------------------------------------------|---------------------------------------------------|
-| [Redhat Official Document](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables) | Document for modify kernel tunables.          |
-| [Phoenixnap Document](https://phoenixnap.com/kb/sysctl) | Document for sysctl command in Linux.          |
+| [Medium Blog](https://medium.com/@gaganjain9319/what-is-maven-and-the-importance-of-pom-xml-8273f5cd6fd6) | Document for maven and pom.xml introduction        |
+| [Pom.xml Document](https://anju-chaurasiya2012.medium.com/understanding-pom-xml-in-maven-a-beginner-friendly-guide-7f2e23232d4a) | Document for pom.xml guide.          |
 
 ---
