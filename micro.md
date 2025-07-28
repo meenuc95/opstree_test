@@ -69,6 +69,12 @@ Cleaner collaboration: Fewer conflicts, clearer pull requests.
 ---
 
 ## Disadvantages
+Increased Complexity: Managing multiple repositories can lead to higher overhead in terms of tooling, configuration, and coordination between teams.
+Dependency Management Complexity: Managing dependencies across multiple repositories requires careful version tracking and coordination to ensure compatibility.
+Code Duplication: Coordinating changes across multiple repositories can be more challenging, potentially leading to code duplication.
+Dependency duplication: Each microservice typically has its own set of dependencies. With Microrepos, there is a possibility of duplicated dependencies across different repositories. This can result in increased storage requirements and potential difficulties in managing and updating dependencies consistently.
+Deployment and testing overhead: Deploying and testing multiple microservices individually can be more time-consuming and resource-intensive compared to a monolithic deployment. Ensuring the compatibility and integration of all services during the deployment process may require additional effort and thorough testing procedures.
+
 
 | *Disadvantage*                  | *Description*                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------|
@@ -79,7 +85,12 @@ Cleaner collaboration: Fewer conflicts, clearer pull requests.
 
 ---
 
-## Use Cases
+## Best Practices
+Maintain Consistent Repository Structure: Standardize folder structures across repositories to facilitate onboarding and code navigation.
+Use Clear Naming Conventions: Adopt descriptive naming conventions for repositories that reflect their purpose clearly.
+Include Comprehensive Documentation: Provide detailed documentation within each repository covering setup instructions, dependencies, APIs, and deployment guidelines.
+Automated Testing:
+Implement robust automated testing within each micro-repo to ensure the quality and reliability of individual services
 
 | *Use Case*                      | *Description*                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------|
@@ -123,6 +134,6 @@ ScyllaDB is an excellent choice for applications requiring high performance, low
 
 | *Link*                                             | *Description*                                              |
 |------------------------------------------------------|--------------------------------------------------------------|
-| [Official ScyllaDB Documentation](https://www.scylladb.com/documentation/) | Detailed official documentation of ScyllaDB.                 |
-| [Installation Guide for ScyllaDB](https://github.com     | Comprehensive guide to install ScyllaDB on various platforms. |
+| Introduction to MicroRepos| https://dev.to/kanani_nirav/monorepo-vs-microrepo-how-to-choose-the-best-repository-structure-for-your-code-4pce
+| Pros and Cons of MicroRepos | https://dev.to/nevnet99/microrepos-vs-monorepo-understanding-the-differences-292m
 | [Cassandra Compatibility](https://www.scylladb.com/cassandra-compatibility/) | Information about ScyllaDB's compatibility with Cassandra.   |
