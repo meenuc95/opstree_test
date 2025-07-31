@@ -8,21 +8,20 @@
 
 # Table of Contents
 
-1. [Pre-Requisites](#pre-requisites)
-2. [System Requirements](#system-requirements)
-3. [Architecture](#architecture)
-4. [Ports](#ports)
-5. [API Setup and Execution](#api-setup-and-execution)
-   - [Update System Packages](#update-system-packages)
-   - [Installing Dependencies for Notification Worker](#installing-dependencies-for-notification-worker)
-   - [Working with the Notification Worker Repository](#working-with-the-notification-worker-repository)
-   - [Starting the Application](#starting-the-application)
-   - [Access the Application](#access-the-application)
-6. [Configuration](#configuration)
-7. [Testing](#testing)
-8. [Conclusion](#conclusion)
-9. [Contact Information](#contact-information)
-10. [References](#references)
+1. [Pre-Requisites](#pre-requisites)  
+2. [System Requirements](#system-requirements)  
+3. [Architecture](#architecture)  
+4. [Ports](#ports)  
+5. [API Setup and Execution](#api-setup-and-execution)  
+   - [Installing Dependencies for Notification Worker](#installing-dependencies-for-notification-worker)  
+   - [Elasticsearch Configuration](#elasticsearch-configuration)  
+   - [SMTP Configuration](#smtp-configuration)  
+   - [Working with the Notification Worker Repository](#working-with-the-notification-worker-repository)  
+   - [Access the Application](#access-the-application)  
+   - [Test Complete Workflow](#test-complete-workflow)  
+6. [Conclusion](#conclusion)  
+7. [Contact Information](#contact-information)  
+8. [References](#references)
 
 ---
 
@@ -34,8 +33,7 @@ The Notification Worker application has some external service dependencies and p
 |----------------------------------------|----------------------------------------------------------------------------------------------------------|
 | [Python 3](https://www.python.org/)    | A high-level, interpreted programming language used for the notification worker application. |
 | [Elasticsearch](https://www.elastic.co/) | A distributed search and analytics engine used to store and retrieve employee data. |
-| [Gmail SMTP](https://support.google.com/mail/answer/7126229) | Email service for sending notifications using Gmail's SMTP server. |
-| [Git](https://git-scm.com/)            | Distributed version control system for managing source code. |
+| [Gmail SMTP](https://medium.com/rails-to-rescue/how-to-set-up-smtp-credentials-with-gmail-for-your-app-send-email-cf236d11087d) | Email service for sending notifications using Gmail's SMTP server. |
 
 ---
 
@@ -85,9 +83,6 @@ The Notification Worker application has some external service dependencies and p
 |----------|----------------------------|---------------------------------------------------------------------------------|
 | 22       | SSH                        | Used for secure shell access to the server.                                    |
 | 9200     | HTTP/HTTPS (Elasticsearch) | Default port for connecting to Elasticsearch server.                          |
-| 587      | SMTP (TLS)                 | Standard port for SMTP with TLS encryption (Gmail, Outlook).                  |
-| 465      | SMTP (SSL)                 | Alternative port for SMTP with SSL encryption.                                |
-| 25       | SMTP                       | Standard SMTP port (usually blocked by ISPs).                                |
 | 80       | HTTP                       | Used for standard web traffic and serving HTTP requests.                      |
 | 443      | HTTPS                      | Used for secure web traffic and serving HTTPS requests.                       |
 
@@ -99,9 +94,8 @@ The Notification Worker application has some external service dependencies and p
 
 | *Tool*           | *Installation Steps*                                                                                              |
 |------------------|--------------------------------------------------------------------------------------------------------------------|
-| *Python 3*       | Follow this [link](https://www.python.org/downloads/) to install Python 3.7+ |
-| *Git*            | Follow this [link](https://git-scm.com/downloads) to install Git |
-| *Elasticsearch*  | Follow this [link](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) to install Elasticsearch |
+| *Python 3*       | Follow this [link](https://github.com/Snaatak-Cloudops-Crew/documentation/tree/scrum-16-sonal/Softwares/Python/Installation/Manual) to install Python 3.7+ |
+| *Elasticsearch*  | Follow this [link](https://www.fosstechnix.com/how-to-install-elastic-stack-on-ubuntu-22-04/) to install Elasticsearch |
 
 ### Python Dependencies
 The application requires the following Python packages (automatically installed via requirements.txt):
@@ -122,6 +116,7 @@ sudo apt update
 sudo apt install openjdk-17-jdk openjdk-17-jre
 java --version
 ```
+<img width="1146" height="73" alt="Screenshot 2025-07-31 at 11 50 34 AM" src="https://github.com/user-attachments/assets/10d9e1f4-9557-418f-8f8a-4f999234b5f1" />
 
 **Step 2: Install Elasticsearch**
 ```bash
@@ -133,6 +128,7 @@ echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://arti
 sudo apt update
 sudo apt install elasticsearch
 ```
+<img width="1416" height="102" alt="Screenshot 2025-07-31 at 11 52 15 AM" src="https://github.com/user-attachments/assets/b9ce8e9b-08ed-4239-b07e-a7695b055790" />
 
 **Step 3: Start Elasticsearch Service**
 ```bash
@@ -141,6 +137,7 @@ sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
 sudo systemctl status elasticsearch.service
 ```
+<img width="1417" height="347" alt="Screenshot 2025-07-31 at 11 59 23 AM" src="https://github.com/user-attachments/assets/c0582720-095c-452f-93b0-35f9ad1b74cd" />
 
 **Step 4: Configure Elasticsearch**
 ```bash
@@ -152,18 +149,24 @@ sudo vi /etc/elasticsearch/elasticsearch.yml
 network.host: 0.0.0.0
 xpack.security.http.ssl:  # to disable ssl
   enabled: false
+
 discovery.seed_hosts: [ ]
 ```
+
+<img width="1117" height="144" alt="Screenshot 2025-07-31 at 12 00 27 PM" src="https://github.com/user-attachments/assets/e3737f40-a1db-4b5a-811f-43142a5d6faa" />
+
 **Step 5: Generate Password**
 ```bash
 sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
 ```
+<img width="1312" height="140" alt="Screenshot 2025-07-31 at 12 47 25 PM" src="https://github.com/user-attachments/assets/20185f90-102c-429a-860c-e3fbc5e25229" />
 
 **Step 6: Restart and Verify**
 ```bash
 sudo systemctl restart elasticsearch
 curl -u <elastic_user>:<elastic_password> http://localhost:9200
 ```
+<img width="1110" height="301" alt="Screenshot 2025-07-31 at 1 06 43 PM" src="https://github.com/user-attachments/assets/231dedb2-e10e-442c-bc0d-88654aa2822b" />
 
 5. **Test Elasticsearch:**
    ```bash
@@ -173,7 +176,7 @@ curl -u <elastic_user>:<elastic_password> http://localhost:9200
 
 ### Create Employee Index and Test Data
 
-# Replace 'your-password' with the password generated in step 5
+**Replace 'your-password' with the password generated in step 5**
 
 ```bash
 # Create index 
@@ -183,6 +186,8 @@ curl -X PUT "http://localhost:9200/employee-management" -u elastic:<your-passwor
 curl -X POST "http://localhost:9200/employee-management/_doc" -u elastic:your-password -H "Content-Type: application/json" -d '{"email_id": "meenutest95@gmail.com", "name": "meenu"}'
 
 ```
+<img width="1418" height="128" alt="Screenshot 2025-07-31 at 2 41 41 PM" src="https://github.com/user-attachments/assets/a25de24b-e195-4669-b1aa-fd031a9f4373" />
+
 ---
 
 
@@ -193,7 +198,13 @@ curl -X POST "http://localhost:9200/employee-management/_doc" -u elastic:your-pa
 2. Generate App Password:
    - Go to Google Account Settings
    - Security → 2-Step Verification → App passwords
-   - Select "Mail" and generate password
+     <img width="1058" height="310" alt="Screenshot 2025-07-31 at 1 21 32 PM" src="https://github.com/user-attachments/assets/896c7c21-5b9a-48ed-816e-ec519a9104c5" />
+
+   - Enter App Name and generate password
+     
+  <img width="1030" height="400" alt="Screenshot 2025-07-31 at 1 22 20 PM" src="https://github.com/user-attachments/assets/54592b97-fab2-4f66-b94e-e886620cee2b" />
+
+     
 3. Use the generated password in config.yaml
 
 **Example Gmail configuration:**
@@ -216,6 +227,7 @@ sudo apt upgrade -y
 sudo apt install python3 python3-pip python3-venv -y
 python3 --version
 ```
+<img width="948" height="52" alt="Screenshot 2025-07-31 at 12 06 57 PM" src="https://github.com/user-attachments/assets/e064479a-cd2a-44a2-95f9-e37da669021f" />
 
 **Step 2: Clone and Setup Repository**
 ```bash
@@ -224,11 +236,14 @@ cd notification-worker/
 ls
 ```
 
+<img width="1307" height="188" alt="Screenshot 2025-07-31 at 12 07 25 PM" src="https://github.com/user-attachments/assets/0a565664-4ed2-44f4-b743-ee4fb0854614" />
+
 **Step 3: Create Virtual Environment**
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
+<img width="1139" height="199" alt="Screenshot 2025-07-31 at 12 08 24 PM" src="https://github.com/user-attachments/assets/61557d46-3d78-428e-86c1-a7b7c7687854" />
 
 **Step 4: Install Dependencies**
 ```bash
@@ -237,7 +252,7 @@ pip3 install -r requirements.txt
 
 **Step 5: Update application configuration**
 ```bash
-vi config.yaml
+sudo vi config.yaml
 ```
 
 **Example configuration:**
@@ -268,6 +283,7 @@ export CONFIG_FILE=config.yaml
 ```bash
 python3 notification_api.py --mode external
 ```
+<img width="1210" height="131" alt="Screenshot 2025-07-31 at 2 44 24 PM" src="https://github.com/user-attachments/assets/4de63ff1-f2c1-4a65-8756-e7d5071e36ec" />
 
 *2. Run in scheduled mode (continuous):*
 ```bash
@@ -337,15 +353,6 @@ python3 notification_api.py --mode scheduled
 python3 notification_api.py --mode external
 ```
 
-## Expected Output
-```
-2025-07-29 14:47:30,408 — notification-service — INFO — Starting notification service
-2025-07-29 14:47:30,409 — notification-service — INFO — Sending email to: test@example.com
-2025-07-29 14:47:30,410 — notification-service — INFO — Email sent successfully to: test@example.com
-```
-
----
-
 # Conclusion
 
 The Notification Worker is a robust Python application designed to send automated email notifications to employees. It leverages Elasticsearch for employee data management, SMTP servers for email delivery, and scheduling capabilities for automated execution. The application is designed for reliability, scalability, and easy integration with existing systems.
@@ -379,6 +386,5 @@ The Notification Worker is a robust Python application designed to send automate
 |-------------------------|--------------------------------------------------------------------------------|
 | Python Documentation    | [Click here](https://docs.python.org/3/) |
 | Elasticsearch Guide     | [Click here](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) |
-| SMTP Configuration      | [Click here](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) |
-| Gmail App Passwords     | [Click here](https://support.google.com/accounts/answer/185833) |
+| SMTP Configuration For Gmail  | [Click here](https://medium.com/rails-to-rescue/how-to-set-up-smtp-credentials-with-gmail-for-your-app-send-email-cf236d11087d) |
 | Python Virtual Environments | [Click here](https://docs.python.org/3/tutorial/venv.html) | 
