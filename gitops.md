@@ -103,4 +103,15 @@ flowchart TD
 | No Monitoring or Alerts              | If you don’t set up alerts, you won’t know when something goes wrong with deployments or syncing.                |
 | No Plan for Fixing Mistakes          | Without backups or rollback strategies, it's hard to recover if something breaks in production.                  |
 
+## GitOps Best Practices 
+
+| Best Practice                    | Desscription                                                                                   |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Plan Branching Strategies        | Create separate branches in Git for different environments (like dev, test, prod). This helps keep changes organized.  |
+| Avoid Mixed Environments         | Manage everything (apps, configs, infrastructure) through Git. Mixing manual steps and GitOps can lead to confusion.   |
+| Use Merge Requests for Discussion| Pull Requests (PRs) are a good place to talk about changes before applying them. Encourage reviews and feedback.        |
+| React to Failures Immediately    | If something fails in an upstream environment (like dev), pause deployments and fix the issue in Git before continuing. |
+| Use Policy as Code               | Add automatic checks (like security rules) to ensure changes meet company policies before they’re deployed.            |
+| Ensure Idempotency               | Running a config multiple times should always give the same result. Use tools that ensure repeatable deployments.      |
+
 
