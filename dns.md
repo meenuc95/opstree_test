@@ -8,16 +8,19 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)  
-2. [What is DNS?](#what-is-dns)  
-3. [Why Do You Need DNS?](#why-do-you-need-dns)  
-4. [Prerequisites](#prerequisites)  
-5. [Configuring DNS in GoDaddy](#configuring-dns-in-godaddy)  
-6. [Save and Wait for Propagation](#save-and-wait-for-propagation)  
-7. [Test Your Setup](#test-your-setup)  
-8. [FAQs](#frequently-asked-questions-faqs)  
-9. [Contact Information](#contact-information)  
-10. [References](#references)
+1. [Introduction](#1-introduction)  
+2. [What is DNS?](#2-what-is-dns)  
+3. [Why Do You Need DNS?](#3-why-do-you-need-dns)  
+4. [Prerequisites](#4-prerequisites)  
+5. [DNS Record Types](#5-dns-record-types)  
+6. [Configuring DNS in GoDaddy](#6-configuring-dns-in-godaddy)  
+    - [Step 1: Register a Domain](#step-1-register-a-domain)
+    - [Step 2: Access DNS Management on GoDaddy](#step-2-access-dns-management-on-godaddy)
+7. [Test Your Setup](#7-test-your-setup)  
+8. [Frequently Asked Questions (FAQs)](#8-frequently-asked-questions-faqs)  
+9. [Contact Information](#9-contact-information)  
+10. [References](#10-references)
+
 
 ---
 
@@ -50,34 +53,47 @@ For example, when you enter `www.example.com` into your browser, a DNS server tr
 
 ---
 
+## 5. DNS Record Types 
 
-## 5. Configuring DNS in GoDaddy
+DNS (Domain Name System) records are instructions stored on DNS servers that tell the internet how to route your domain’s traffic. Most commonly used DNS record types:
 
-### Step 1: Register & Access DNS Management on GoDaddy
 
-- Log in to your GoDaddy account.
-- Go to "My Products".
-- Select your domain and click "DNS" or "Manage DNS".
+| Record Type | Name                                  | Purpose                                                                                   |
+| ----------- | ------------------------------------- | ----------------------------------------------------------------------------------------- |
+| A           | Address Record                        | Maps a domain to an IPv4 address (e.g., example.com → 192.0.2.1).                         |
+| AAAA        | IPv6 Address Record                   | Maps a domain to an IPv6 address (e.g., example.com → ::1).                               |
+| CNAME       | Canonical Name                        | Maps a domain to another domain (alias). Useful for subdomains.                           |
+| MX          | Mail Exchange                         | Specifies mail servers for the domain to handle email.                                    |
+| TXT         | Text Record                           | Stores arbitrary text data. Commonly used for SPF, DKIM, and verification.                |
+| NS          | Name Server                           | Specifies the authoritative DNS servers for the domain.                                   |
+
+## Examples Explained
+
+- **A Record:**  
+  If you want `yourdomain.com` to show your website hosted on a server with IP `123.45.67.89`, add an A record pointing to that IP.
+
+- **CNAME Record:**  
+  If you use a service like GitHub Pages or Heroku, you might point `blog.yourdomain.com` to `username.github.io` with a CNAME.
+
+- **MX Record:**  
+  To receive emails at `yourname@yourdomain.com`, set up MX records as instructed by your email provider.
+---
+
+
+## 6. Configuring DNS in GoDaddy
+
+### Step 1: Register a Domain
+
+- Follow the [link](https://github.com/Snaatak-Cloudops-Crew/documentation/blob/SCRUM-110-divya-mishra/Domain-Security/DNS/POC/README.md#61-buy-a-domain-from-godaddy)
 
 ---
 
-### Step 2: Add DNS Records
+### Step 2: Access DNS Management on GoDaddy
 
-#### A. Add an A Record (Points domain to server IP)
-1. In the DNS Records section, click "Add" and select "A" from the Type dropdown.
-2. Set "Host" to `@` (for the root domain) or `www` (for a subdomain).
-3. Enter your server’s IP address in "Points to".
-4. Save the record.
-
-<img width="1347" height="396" alt="Screenshot 2025-08-05 at 11 55 14 AM" src="https://github.com/user-attachments/assets/09ab74b8-5b3e-40bb-9d55-13a45a6cb21d" />
+- Follow the [link](https://github.com/Snaatak-Cloudops-Crew/documentation/blob/SCRUM-110-divya-mishra/Domain-Security/DNS/POC/README.md#63-configure-dns-records-via-godaddy)
 
 
-## 6. Save and Wait for Propagation
-
-- Click "Save" after adding or editing each record.
 - DNS changes may take anywhere from a few minutes to 48 hours to update across the internet.
-
-<img width="1354" height="326" alt="Screenshot 2025-08-05 at 11 55 20 AM" src="https://github.com/user-attachments/assets/ce120758-7565-4fee-9dcf-81f24e58ea21" />
 
 ---
 
